@@ -1,0 +1,24 @@
+# macOS
+.DS_Store
+
+# SwiftPM
+.build/
+.swiftpm/
+/Packages
+Package.resolved
+
+# Xcode
+xcuserdata/
+DerivedData/
+*.xcscmblueprint
+*.xccheckout
+*.moved-aside
+*.hmap
+*.ipa
+*.dSYM.zip
+*.dSYM
+timeline.xctimeline
+playground.xcworkspace
+
+# DocC
+*.doccarchive

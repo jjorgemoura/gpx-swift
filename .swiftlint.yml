@@ -1,0 +1,40 @@
+# Semantic rules only (ADR-0008). Style is swift-format's job.
+included:
+  - Sources
+  - Tests
+  - Demo
+
+disabled_rules: # overlap with swift-format (STYLE-3)
+  - trailing_whitespace
+  - trailing_comma
+  - opening_brace
+  - closing_brace
+  - colon
+  - comma
+  - vertical_whitespace
+  - leading_whitespace
+  - statement_position
+  - return_arrow_whitespace
+  - operator_whitespace
+  - line_length
+
+opt_in_rules:
+  - force_unwrapping # STYLE-5
+  - empty_count
+  - first_where
+  - contains_over_first_not_nil
+  - discouraged_optional_boolean
+  - fatal_error_message
+  - unowned_variable_capture
+
+custom_rules:
+  unchecked_sendable: # CONC-3: disable inline with a reason
+    name: "Unchecked Sendable"
+    regex: '@unchecked\s+Sendable'
+    message: "CONC-3: explain the invariant, then // swiftlint:disable:next unchecked_sendable"
+    severity: error
+  no_dispatch_queue: # CONC-5
+    name: "DispatchQueue"
+    regex: '\bDispatchQueue\b'
+    message: "CONC-5: prefer actors and structured concurrency"
+    severity: warning

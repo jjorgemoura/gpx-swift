@@ -1,0 +1,17 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+# Thin caller (CI-1). All logic lives in the platform repo's reusable workflow.
+# TODO: create library-ci.yml in platform, then pin @ref to a tag or SHA (CI-2).
+jobs:
+  ci:
+    uses: __OWNER__/platform/.github/workflows/library-ci.yml@main
+    with:
+      module: LibraryTemplate
+      demo-project: Demo/LibraryTemplateDemo.xcodeproj
+      demo-scheme: LibraryTemplateDemo
+      linux: false # set true for Foundation-only libraries (PLAT-4)
