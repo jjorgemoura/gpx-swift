@@ -1,40 +1,246 @@
-# Semantic rules only (ADR-0008). Style is swift-format's job.
-included:
-  - Sources
-  - Tests
-  - Demo
+# Swiftlint MAIN configuration file
 
-disabled_rules: # overlap with swift-format (STYLE-3)
-  - trailing_whitespace
-  - trailing_comma
-  - opening_brace
-  - closing_brace
-  - colon
-  - comma
-  - vertical_whitespace
-  - leading_whitespace
-  - statement_position
-  - return_arrow_whitespace
-  - operator_whitespace
-  - line_length
+analyzer_rules:
+  - capture_variable
+  - explicit_self
+  - typesafe_array_init
+  - unused_declaration
+  - unused_import
 
 opt_in_rules:
-  - force_unwrapping # STYLE-5
-  - empty_count
-  - first_where
+  - accessibility_label_for_image
+  - accessibility_trait_for_button
+  - anonymous_argument_in_multiline_closure
+  - array_init
+  - async_without_await
+  - attributes
+  - balanced_xctest_lifecycle
+  - closure_body_length
+  - closure_end_indentation
+  - closure_spacing
+  - collection_alignment
+  - comma_inheritance
+  - conditional_returns_on_newline
+  - contains_over_filter_count
+  - contains_over_filter_is_empty
   - contains_over_first_not_nil
+  - contains_over_range_nil_comparison
+  - contrasted_opening_brace
+  - convenience_type
+  - direct_return
+  - discarded_notification_center_observer
+  - discouraged_assert
+  - discouraged_default_parameter
+  - discouraged_none_name
+  - discouraged_object_literal
   - discouraged_optional_boolean
+  - discouraged_optional_collection
+  - empty_collection_literal
+  - empty_count
+  - empty_string
+  - empty_xctest_method
+  - enum_case_associated_values_count
+  - expiring_todo
+  - explicit_acl
+  - explicit_enum_raw_value
+  - explicit_init
+  - explicit_top_level_acl
+  - explicit_type_interface
+  - extension_access_modifier
+  - fallthrough
   - fatal_error_message
+  - file_header
+  - file_name
+  - file_name_no_space
+  - file_types_order
+  - final_test_case
+  - first_where
+  - flatmap_over_map_reduce
+  - force_unwrapping
+  - function_default_parameter_at_end
+  - ibinspectable_in_extension
+  - identical_operands
+  - implicit_return
+  - implicitly_unwrapped_optional
+  - incompatible_concurrency_annotation
+  - indentation_width
+  - joined_default_parameter
+  - last_where
+  - legacy_multiple
+  - legacy_objc_type
+  - legacy_random
+  - legacy_uigraphics_function
+  - let_var_whitespace
+  - literal_expression_end_indentation
+  - local_doc_comment
+  - lower_acl_than_parent
+  - missing_docs
+  - modifier_order
+  - multiline_arguments
+  - multiline_arguments_brackets
+  - multiline_call_arguments
+  - multiline_function_chains
+  - multiline_literal_brackets
+  - multiline_parameters
+  - multiline_parameters_brackets
+  - nimble_operator
+  - no_empty_block
+  - no_extension_access_modifier
+  - no_grouping_extension
+  - no_magic_numbers
+  - non_overridable_class_declaration
+  - nslocalizedstring_key
+  - nslocalizedstring_require_bundle
+  - number_separator
+  - object_literal
+  - one_declaration_per_file
+  - operator_usage_whitespace
+  - optional_enum_case_matching
+  - overridden_super_call
+  - override_in_extension
+  - pattern_matching_keywords
+  - period_spacing
+  - prefer_asset_symbols
+  - prefer_condition_list
+  - prefer_key_path
+  - prefer_nimble
+  - prefer_self_in_static_references
+  - prefer_self_type_over_type_of_self
+  - prefer_zero_over_explicit_init
+  - prefixed_toplevel_constant
+  - private_action
+  - private_outlet
+  - private_subject
+  - private_swiftui_state
+  - prohibited_interface_builder
+  - prohibited_super_call
+  - quick_discouraged_call
+  - quick_discouraged_focused_test
+  - quick_discouraged_pending_test
+  - raw_value_for_camel_cased_codable_enum
+  - reduce_into
+  - redundant_final
+  - redundant_nil_coalescing
+  - redundant_self
+  - redundant_type_annotation
+  - required_deinit
+  - required_enum_case
+  - return_value_from_void_function
+  - self_binding
+  - shorthand_argument
+  - shorthand_optional_binding
+  - single_test_class
+  - sorted_enum_cases
+  - sorted_first_last
+  - sorted_imports
+  - static_operator
+  - strict_fileprivate
+  - strong_iboutlet
+  - superfluous_else
+  - switch_case_on_newline
+  - test_case_accessibility
+  - toggle_bool
+  - trailing_closure
+  - type_contents_order
+  - unavailable_function
+  - unhandled_throwing_task
+  - unneeded_escaping
+  - unneeded_parentheses_in_closure_argument
+  - unneeded_throws_rethrows
   - unowned_variable_capture
+  - untyped_error_in_catch
+  - unused_parameter
+  - variable_shadowing
+  - vertical_parameter_alignment_on_call
+  - vertical_whitespace_between_cases
+  - vertical_whitespace_closing_braces
+  - vertical_whitespace_opening_braces
+  - weak_delegate
+  - xct_specific_matcher
+  - yoda_condition
+
+cyclomatic_complexity:
+  ignores_case_statements: true
+
+function_parameter_count:
+  warning: 6
+  error: 8
+
+identifier_name:
+  excluded:
+    - tv
+    - id
+    - it
+    - uk
+    - qa
+    - x
+    - y
+  max_length:
+    warning: 50
+    error: 60
+
+line_length:
+  warning: 220
+  error: 220
+  ignores_comments: true
+  ignores_urls: true
+  ignores_interpolated_strings: true
+
+nesting:
+  type_level:
+    warning: 3
+    error: 5
+
+type_body_length:
+  warning: 300
+  error: 400
+
+blanket_disable_command:
+  allowed_rules:
+    - file_length
+    - function_body_length
+    - line_length
+    - nesting
+    - type_body_length
+
+included:
+  - .
+  - ../Scripts
+excluded: # paths to ignore during linting. Takes precedence over `included`.
+  - AppCoreRenderer
+  - BuildTools
+  - CocoaPods
+  - derived
+  - DerivedData
+  - Pods
 
 custom_rules:
-  unchecked_sendable: # CONC-3: disable inline with a reason
-    name: "Unchecked Sendable"
-    regex: '@unchecked\s+Sendable'
-    message: "CONC-3: explain the invariant, then // swiftlint:disable:next unchecked_sendable"
-    severity: error
-  no_dispatch_queue: # CONC-5
-    name: "DispatchQueue"
-    regex: '\bDispatchQueue\b'
-    message: "CONC-5: prefer actors and structured concurrency"
+  # init_no_allowed:
+  #     included: ".*\\.swift"
+  #     regex: '((?<!super|self)(\.init\())'
+  #     message: "Avoid using .init to construct object"
+  #     severity: warning
+
+  no_direct_user_defaults:
+    included: ".*\\.swift"
+    regex: '\.sharedUserDefaults| UserDefaults(\(|\.)'
+    message: "UserDefaults should only be accessed via a Store using namespaced keys (Sport) or the UserDefaultClient (News)."
+    severity: warning
+
+  no_line_before_closing:
+    included: ".*\\.swift"
+    regex: '\n\n\s*\}'
+    message: "No vertical whitespace before closing brace"
+    severity: warning
+
+  prefer_item:
+    included: ".*\\.swift"
+    regex: "indexPath.row"
+    message: "Prefer use of .item over .row"
+    severity: warning
+
+  simple_conditionals:
+    included: ".*\\.swift"
+    regex: '(guard|if) let[^\n]*else \{\n\s+return( true| false| nil)*\n\s*\}'
+    message: "Simple conditions should be expressed on one line"
     severity: warning
