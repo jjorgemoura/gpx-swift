@@ -1,5 +1,4 @@
 // swift-tools-version: 6.4
-// Platform matrix: see platform/standards/platforms.md (PLAT-2). Trim per library.
 
 import PackageDescription
 
@@ -10,14 +9,18 @@ let package = Package(
         .macOS(.v26),
     ],
     products: [
-        .library(name: "LibraryTemplate", targets: ["LibraryTemplate"])
+        .library(name: "GPXSwift", targets: ["GPXSwift"])
+    ],
+    dependencies: [
     ],
     targets: [
-        .target(name: "LibraryTemplate"),
+        .target(
+            name: "GPXSwift",
+            dependencies: [],
+        ),
         .testTarget(
-            name: "LibraryTemplateTests",
-            dependencies: ["LibraryTemplate"],
-            resources: [.copy("Fixtures")]
+            name: "GPXSwiftTests",
+            dependencies: ["GPXSwift"],
         ),
     ]
 )
