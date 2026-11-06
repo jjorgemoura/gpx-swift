@@ -3,7 +3,7 @@
 import PackageDescription
 
 let package = Package(
-    name: "LibraryTemplate",
+    name: "gpx-swift",
     platforms: [
         .iOS(.v26),
         .macOS(.v26),

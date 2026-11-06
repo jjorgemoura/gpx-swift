@@ -17,4 +17,4 @@ docs:
 	xcodebuild docbuild -scheme $(MODULE) -destination 'generic/platform=iOS' -quiet
 
 demo:
-	open Demo/$(MODULE)Demo.xcodeproj
+	open GPXSwift.xcworkspace
