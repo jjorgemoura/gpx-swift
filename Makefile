@@ -1,6 +1,8 @@
 MODULE  := GPXSwift
 SOURCES := Sources Tests Package.swift
 
+.DEFAULT_GOAL := lint
+
 .PHONY: format lint test docs demo
 
 format:

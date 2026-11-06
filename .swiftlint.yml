@@ -168,11 +168,7 @@ function_parameter_count:
 
 identifier_name:
   excluded:
-    - tv
     - id
-    - it
-    - uk
-    - qa
     - x
     - y
   max_length:
@@ -180,8 +176,8 @@ identifier_name:
     error: 60
 
 line_length:
-  warning: 220
-  error: 220
+  warning: 180
+  error: 200
   ignores_comments: true
   ignores_urls: true
   ignores_interpolated_strings: true
@@ -189,7 +185,7 @@ line_length:
 nesting:
   type_level:
     warning: 3
-    error: 5
+    error: 4
 
 type_body_length:
   warning: 300
@@ -206,27 +202,11 @@ blanket_disable_command:
 included:
   - .
   - ../Scripts
+
 excluded: # paths to ignore during linting. Takes precedence over `included`.
-  - AppCoreRenderer
-  - BuildTools
-  - CocoaPods
-  - derived
   - DerivedData
-  - Pods
 
 custom_rules:
-  # init_no_allowed:
-  #     included: ".*\\.swift"
-  #     regex: '((?<!super|self)(\.init\())'
-  #     message: "Avoid using .init to construct object"
-  #     severity: warning
-
-  no_direct_user_defaults:
-    included: ".*\\.swift"
-    regex: '\.sharedUserDefaults| UserDefaults(\(|\.)'
-    message: "UserDefaults should only be accessed via a Store using namespaced keys (Sport) or the UserDefaultClient (News)."
-    severity: warning
-
   no_line_before_closing:
     included: ".*\\.swift"
     regex: '\n\n\s*\}'

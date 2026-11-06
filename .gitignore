@@ -3,6 +3,7 @@
 
 # SwiftPM
 .build/
+/.build
 .swiftpm/
 
 # Xcode
@@ -20,3 +21,10 @@ playground.xcworkspace
 
 # DocC
 *.doccarchive
+
+# to evaluate during development
+/Packages
+.netrc
+*.orig
+*.sqlite
+*.xcresult
