@@ -12,6 +12,6 @@ jobs:
     uses: __OWNER__/platform/.github/workflows/library-ci.yml@main
     with:
       module: LibraryTemplate
-      demo-project: Demo/LibraryTemplateDemo.xcodeproj
-      demo-scheme: LibraryTemplateDemo
+      demo-project: Examples/DemoApp.xcodeproj
+      demo-scheme: DemoApp
       linux: false # set true for Foundation-only libraries (PLAT-4)

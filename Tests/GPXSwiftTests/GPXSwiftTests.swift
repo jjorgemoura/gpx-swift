@@ -1,9 +1,9 @@
 import Testing
-@testable import LibraryTemplate
+@testable import GPXSwift
 
-@Suite("LibraryTemplate")
-struct LibraryTemplateTests {
+@Suite("GPXSwift")
+struct GPXSwiftTests {
     @Test func greeting() {
-        #expect(LibraryTemplate().greeting() == "Hello from LibraryTemplate")
+        #expect(GPXSwift().greeting() == "Hello from GPXSwift")
     }
 }

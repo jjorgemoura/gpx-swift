@@ -1,4 +1,4 @@
-MODULE  := LibraryTemplate
+MODULE  := GPXSwift
 SOURCES := Sources Tests Package.swift
 
 .PHONY: format lint test docs demo

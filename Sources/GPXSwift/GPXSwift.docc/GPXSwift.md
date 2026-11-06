@@ -1,4 +1,4 @@
-# ``LibraryTemplate``
+# ``GPXSwift``
 
 {One-sentence summary of what the library does.}
 
@@ -10,4 +10,4 @@
 
 ### Essentials
 
-- ``LibraryTemplate/LibraryTemplate``
+- ``GPXSwift/GPXSwift``
