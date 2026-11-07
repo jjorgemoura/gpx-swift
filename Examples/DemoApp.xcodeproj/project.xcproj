@@ -29,6 +29,17 @@
       "product-type": "application",
       "build-phases": [
         "compile-sources",
+        {
+          "kind": "script",
+          "name": "Swiftlint",
+          "log-environment-variables": true,
+          "shell": "/bin/sh",
+          "script": [
+            "export PATH=\"/opt/homebrew/bin:$PATH\"",
+            "cd \"$SRCROOT/..\" && make lint-xcode",
+            "",
+          ],
+        },
         "frameworks",
         "resources",
       ],
