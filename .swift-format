@@ -3,4 +3,7 @@
     "spaces" : 4
   },
   "lineLength" : 180,
+  "rules": {
+    "ReplaceForEachWithForLoop": false
+  }
 }

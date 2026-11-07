@@ -1,0 +1,7 @@
+$(SRCROOT)/DemoApp
+$(SRCROOT)/Package.swift
+$(SRCROOT)/../Sources
+$(SRCROOT)/../Tests
+$(SRCROOT)/../Package.swift
+$(SRCROOT)/../.swiftlint.yml
+$(SRCROOT)/../Makefile

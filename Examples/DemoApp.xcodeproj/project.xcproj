@@ -33,6 +33,9 @@
           "kind": "script",
           "name": "Swiftlint",
           "log-environment-variables": true,
+          "input-file-list-paths": [
+            "$(SRCROOT)/swiftlint-inputs.xcfilelist",
+          ],
           "run-on-every-build": true,
           "shell": "/bin/sh",
           "script": [

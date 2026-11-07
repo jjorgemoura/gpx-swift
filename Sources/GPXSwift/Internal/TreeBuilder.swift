@@ -24,9 +24,9 @@ final class TreeBuilder: NSObject, XMLParserDelegate {
         stack[stack.count - 1].text += string
     }
 
-    func parser(_ parser: XMLParser, foundCDATA CDATABlock: Data) {
+    func parser(_ parser: XMLParser, foundCDATA cDataBlock: Data) {
         guard !stack.isEmpty else { return }
-        stack[stack.count - 1].text += String(bytes: CDATABlock, encoding: .utf8) ?? ""
+        stack[stack.count - 1].text += String(bytes: cDataBlock, encoding: .utf8) ?? ""
     }
 
     func parser(
