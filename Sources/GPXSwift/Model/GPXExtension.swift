@@ -14,14 +14,19 @@ public struct GPXExtension: Sendable, Hashable, Codable {
     public var text: String?
 
     /// The element's child elements.
-    public var children: [GPXExtension]
+    public var children: [Self]
+
+    /// The element name without its namespace prefix.
+    public var localName: String {
+        name.split(separator: ":", omittingEmptySubsequences: false).last.map(String.init) ?? name
+    }
 
     /// Creates an extension element.
     public init(
         name: String,
         attributes: [String: String] = [:],
         text: String? = nil,
-        children: [GPXExtension] = []
+        children: [Self] = []
     ) {
         self.name = name
         self.attributes = attributes
@@ -30,12 +35,7 @@ public struct GPXExtension: Sendable, Hashable, Codable {
     }
 
     /// The first child whose qualified name or local name equals `name`.
-    public func child(named name: String) -> GPXExtension? {
+    public func child(named name: String) -> Self? {
         children.first { $0.name == name || $0.localName == name }
-    }
-
-    /// The element name without its namespace prefix.
-    public var localName: String {
-        name.split(separator: ":", omittingEmptySubsequences: false).last.map(String.init) ?? name
     }
 }

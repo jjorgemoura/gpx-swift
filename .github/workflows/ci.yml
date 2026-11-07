@@ -34,14 +34,22 @@ jobs:
       - uses: actions/checkout@v4
       - name: swift-format
         run: swift format lint --strict --recursive Sources Tests Package.swift
-      - name: SwiftLint
+      - name: Install SwiftLint
         run: |
           apt-get update -qq && apt-get install -y -qq curl unzip >/dev/null
           arch=$(uname -m | sed 's/x86_64/amd64/')
           curl -fsSL -o swiftlint.zip \
             "https://github.com/realm/SwiftLint/releases/download/${SWIFTLINT_VERSION}/swiftlint_linux_${arch}.zip"
           unzip -q swiftlint.zip -d "$RUNNER_TEMP/swiftlint"
-          "$RUNNER_TEMP/swiftlint/swiftlint" --strict
+          echo "$RUNNER_TEMP/swiftlint" >> "$GITHUB_PATH"
+      - name: SwiftLint
+        run: swiftlint --strict
+      # Analyzer rules need a compiler log. Not --strict until the existing
+      # violations are cleaned up, so it only reports warnings for now.
+      - name: SwiftLint analyze
+        run: |
+          swift build -v > build.log 2>&1 || { tail -20 build.log; exit 1; }
+          swiftlint analyze --compiler-log-path build.log
 
   test-linux:
     needs: config

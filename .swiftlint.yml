@@ -2,7 +2,7 @@
 
 analyzer_rules:
   - capture_variable
-  - explicit_self
+  # - explicit_self
   - typesafe_array_init
   - unused_declaration
   - unused_import
@@ -10,7 +10,7 @@ analyzer_rules:
 opt_in_rules:
   - accessibility_label_for_image
   - accessibility_trait_for_button
-  - anonymous_argument_in_multiline_closure
+  # - anonymous_argument_in_multiline_closure
   - array_init
   - async_without_await
   - attributes
@@ -20,18 +20,18 @@ opt_in_rules:
   - closure_spacing
   - collection_alignment
   - comma_inheritance
-  - conditional_returns_on_newline
+  # - conditional_returns_on_newline
   - contains_over_filter_count
   - contains_over_filter_is_empty
   - contains_over_first_not_nil
   - contains_over_range_nil_comparison
-  - contrasted_opening_brace
+  # - contrasted_opening_brace
   - convenience_type
   - direct_return
   - discarded_notification_center_observer
   - discouraged_assert
   - discouraged_default_parameter
-  - discouraged_none_name
+  # - discouraged_none_name
   - discouraged_object_literal
   - discouraged_optional_boolean
   - discouraged_optional_collection
@@ -41,11 +41,11 @@ opt_in_rules:
   - empty_xctest_method
   - enum_case_associated_values_count
   - expiring_todo
-  - explicit_acl
-  - explicit_enum_raw_value
+  # - explicit_acl
+  # - explicit_enum_raw_value
   - explicit_init
-  - explicit_top_level_acl
-  - explicit_type_interface
+  # - explicit_top_level_acl
+  # - explicit_type_interface
   - extension_access_modifier
   - fallthrough
   - fatal_error_message
@@ -86,19 +86,19 @@ opt_in_rules:
   - nimble_operator
   - no_empty_block
   - no_extension_access_modifier
-  - no_grouping_extension
-  - no_magic_numbers
+  # - no_grouping_extension
+  # - no_magic_numbers
   - non_overridable_class_declaration
   - nslocalizedstring_key
   - nslocalizedstring_require_bundle
-  - number_separator
+  # - number_separator
   - object_literal
-  - one_declaration_per_file
+  # - one_declaration_per_file
   - operator_usage_whitespace
   - optional_enum_case_matching
   - overridden_super_call
   - override_in_extension
-  - pattern_matching_keywords
+  # - pattern_matching_keywords
   - period_spacing
   - prefer_asset_symbols
   - prefer_condition_list
@@ -107,7 +107,7 @@ opt_in_rules:
   - prefer_self_in_static_references
   - prefer_self_type_over_type_of_self
   - prefer_zero_over_explicit_init
-  - prefixed_toplevel_constant
+  # - prefixed_toplevel_constant
   - private_action
   - private_outlet
   - private_subject
@@ -123,21 +123,21 @@ opt_in_rules:
   - redundant_nil_coalescing
   - redundant_self
   - redundant_type_annotation
-  - required_deinit
+  # - required_deinit
   - required_enum_case
   - return_value_from_void_function
   - self_binding
   - shorthand_argument
   - shorthand_optional_binding
   - single_test_class
-  - sorted_enum_cases
+  # - sorted_enum_cases
   - sorted_first_last
   - sorted_imports
   - static_operator
   - strict_fileprivate
   - strong_iboutlet
   - superfluous_else
-  - switch_case_on_newline
+  # - switch_case_on_newline
   - test_case_accessibility
   - toggle_bool
   - trailing_closure
@@ -149,15 +149,27 @@ opt_in_rules:
   - unneeded_throws_rethrows
   - unowned_variable_capture
   - untyped_error_in_catch
-  - unused_parameter
+  # - unused_parameter
   - variable_shadowing
   - vertical_parameter_alignment_on_call
-  - vertical_whitespace_between_cases
+  # - vertical_whitespace_between_cases
   - vertical_whitespace_closing_braces
   - vertical_whitespace_opening_braces
   - weak_delegate
   - xct_specific_matcher
   - yoda_condition
+
+
+# Disabled Rules that might be enabled in the future
+# - no_grouping_extension
+# - no_magic_numbers
+# - unused_parameter
+# - anonymous_argument_in_multiline_closure
+# - pattern_matching_keywords
+
+disabled_rules:
+  # - opening_brace
+  - trailing_comma
 
 cyclomatic_complexity:
   ignores_case_statements: true
@@ -199,12 +211,9 @@ blanket_disable_command:
     - nesting
     - type_body_length
 
-included:
-  - .
-  - ../Scripts
+# included:
 
 excluded: # paths to ignore during linting. Takes precedence over `included`.
-  - DerivedData
   - .build
 
 custom_rules:

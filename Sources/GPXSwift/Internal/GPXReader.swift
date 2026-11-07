@@ -134,7 +134,9 @@ enum GPXReader {
         GPXPerson(
             name: element.string("name"),
             email: element.child("email").flatMap { email in
-                guard let id = email.attributes["id"], let domain = email.attributes["domain"] else {
+                guard let id = email.attributes["id"],
+                    let domain = email.attributes["domain"]
+                else {
                     return nil
                 }
                 return GPXEmail(id: id, domain: domain)

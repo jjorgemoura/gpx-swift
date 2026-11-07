@@ -31,10 +31,15 @@ public struct GPXDocument: Sendable, Hashable, Codable {
     /// that extension prefixes stay valid when the document is written.
     public var rootAttributes: [String: String]
 
+    /// Every point of every track, in order.
+    public var trackPoints: [GPXWaypoint] {
+        tracks.flatMap(\.points)
+    }
+
     /// Creates a document.
     public init(
         version: String = "1.1",
-        creator: String,
+        creator: String = "",
         metadata: GPXMetadata? = nil,
         waypoints: [GPXWaypoint] = [],
         routes: [GPXRoute] = [],
@@ -88,10 +93,5 @@ public struct GPXDocument: Sendable, Hashable, Codable {
     /// Writes the document to a file as GPX 1.1 XML.
     public func write(to url: URL) throws {
         try xmlData().write(to: url, options: .atomic)
-    }
-
-    /// Every point of every track, in order.
-    public var trackPoints: [GPXWaypoint] {
-        tracks.flatMap(\.points)
     }
 }

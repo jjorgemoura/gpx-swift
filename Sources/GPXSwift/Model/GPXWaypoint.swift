@@ -1,5 +1,23 @@
 import Foundation
 
+/// The type of GPS fix used to calculate a position.
+public enum GPXFix: String, Sendable, Hashable, Codable {
+    /// No fix.
+    case none
+
+    /// A two-dimensional fix.
+    case twoD = "2d"
+
+    /// A three-dimensional fix.
+    case threeD = "3d"
+
+    /// A differential GPS fix.
+    case dgps
+
+    /// A military-signal fix.
+    case pps
+}
+
 /// A point with a position, used for waypoints, route points and track points.
 public struct GPXWaypoint: Sendable, Hashable, Codable {
     /// Latitude in decimal degrees, WGS84.
@@ -121,22 +139,4 @@ public struct GPXWaypoint: Sendable, Hashable, Codable {
         self.course = course
         self.extensions = extensions
     }
-}
-
-/// The type of GPS fix used to calculate a position.
-public enum GPXFix: String, Sendable, Hashable, Codable {
-    /// No fix.
-    case none
-
-    /// A two-dimensional fix.
-    case twoD = "2d"
-
-    /// A three-dimensional fix.
-    case threeD = "3d"
-
-    /// A differential GPS fix.
-    case dgps
-
-    /// A military-signal fix.
-    case pps
 }

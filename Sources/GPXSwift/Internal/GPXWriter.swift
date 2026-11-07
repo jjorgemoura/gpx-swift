@@ -1,5 +1,3 @@
-import Foundation
-
 /// Serializes a ``GPXDocument`` as GPX 1.1, with elements in schema order.
 struct GPXWriter {
     private static let namespace = "http://www.topografix.com/GPX/1/1"
@@ -8,7 +6,7 @@ struct GPXWriter {
     private var depth = 0
 
     static func write(_ document: GPXDocument) -> String {
-        var writer = GPXWriter()
+        var writer = Self()
         writer.write(document)
         return writer.output
     }
@@ -49,7 +47,8 @@ struct GPXWriter {
                     ("minlon", GPXDateCoding.decimal(bounds.minLongitude)),
                     ("maxlat", GPXDateCoding.decimal(bounds.maxLatitude)),
                     ("maxlon", GPXDateCoding.decimal(bounds.maxLongitude)),
-                ])
+                ]
+            )
         }
         write(metadata.extensions)
         close("metadata")
@@ -85,7 +84,8 @@ struct GPXWriter {
             [
                 ("lat", GPXDateCoding.decimal(point.latitude)),
                 ("lon", GPXDateCoding.decimal(point.longitude)),
-            ])
+            ]
+        )
         text("ele", point.elevation.map(GPXDateCoding.decimal))
         text("time", point.time.map(GPXDateCoding.format))
         text("magvar", point.magneticVariation.map(GPXDateCoding.decimal))

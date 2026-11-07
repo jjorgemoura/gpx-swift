@@ -4,8 +4,8 @@ import Foundation
 enum GPXDateCoding {
     /// Parses a GPX time, with or without fractional seconds. A value without a time zone
     /// designator is taken as UTC.
-    static func parse(_ text: String) -> Date? {
-        let text = text.trimmingCharacters(in: .whitespacesAndNewlines)
+    static func parse(_ inputText: String) -> Date? {
+        let text = inputText.trimmingCharacters(in: .whitespacesAndNewlines)
         guard !text.isEmpty else { return nil }
         for candidate in [text, text + "Z"] {
             if let date = try? Date.ISO8601FormatStyle(includingFractionalSeconds: true).parse(candidate) {

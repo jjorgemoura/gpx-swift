@@ -1,3 +1,20 @@
+/// A continuous run of track points.
+///
+/// A new segment starts where the receiver lost its signal or was switched off.
+public struct GPXTrackSegment: Sendable, Hashable, Codable {
+    /// The points of the segment, in order.
+    public var points: [GPXWaypoint]
+
+    /// Vendor extensions.
+    public var extensions: [GPXExtension]
+
+    /// Creates a segment.
+    public init(points: [GPXWaypoint] = [], extensions: [GPXExtension] = []) {
+        self.points = points
+        self.extensions = extensions
+    }
+}
+
 /// An ordered list of track segments describing a path that was travelled.
 public struct GPXTrack: Sendable, Hashable, Codable {
     /// The name of the track.
@@ -27,6 +44,11 @@ public struct GPXTrack: Sendable, Hashable, Codable {
     /// The track's segments, in order.
     public var segments: [GPXTrackSegment]
 
+    /// Every point of every segment, in order.
+    public var points: [GPXWaypoint] {
+        segments.flatMap(\.points)
+    }
+
     /// Creates a track.
     public init(
         name: String? = nil,
@@ -48,27 +70,5 @@ public struct GPXTrack: Sendable, Hashable, Codable {
         self.type = type
         self.extensions = extensions
         self.segments = segments
-    }
-
-    /// Every point of every segment, in order.
-    public var points: [GPXWaypoint] {
-        segments.flatMap(\.points)
-    }
-}
-
-/// A continuous run of track points.
-///
-/// A new segment starts where the receiver lost its signal or was switched off.
-public struct GPXTrackSegment: Sendable, Hashable, Codable {
-    /// The points of the segment, in order.
-    public var points: [GPXWaypoint]
-
-    /// Vendor extensions.
-    public var extensions: [GPXExtension]
-
-    /// Creates a segment.
-    public init(points: [GPXWaypoint] = [], extensions: [GPXExtension] = []) {
-        self.points = points
-        self.extensions = extensions
     }
 }
