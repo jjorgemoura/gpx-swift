@@ -4,14 +4,90 @@ on:
   pull_request:
   push:
     branches: [main]
+  workflow_call: # reused by release.yml as a gate
 
-# Thin caller (CI-1). All logic lives in the platform repo's reusable workflow.
-# TODO: create library-ci.yml in platform, then pin @ref to a tag or SHA (CI-2).
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+permissions:
+  contents: read
+
+env:
+  SWIFTLINT_VERSION: "0.65.1"
+
 jobs:
-  ci:
-    uses: __OWNER__/platform/.github/workflows/library-ci.yml@main
-    with:
-      module: LibraryTemplate
-      demo-project: Examples/DemoApp.xcodeproj
-      demo-scheme: DemoApp
-      linux: false # set true for Foundation-only libraries (PLAT-4)
+  # Single place to toggle optional jobs. Set linux to "false" for libraries
+  # that import Apple-only frameworks (CoreLocation, SwiftUI, ...).
+  config:
+    runs-on: ubuntu-latest
+    outputs:
+      linux: ${{ steps.flags.outputs.linux }}
+    steps:
+      - id: flags
+        run: echo "linux=true" >> "$GITHUB_OUTPUT"
+
+  lint:
+    runs-on: ubuntu-latest
+    container: swift:latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: swift-format
+        run: swift format lint --strict --recursive Sources Tests Package.swift
+      - name: SwiftLint
+        run: |
+          apt-get update -qq && apt-get install -y -qq curl unzip >/dev/null
+          arch=$(uname -m | sed 's/x86_64/amd64/')
+          curl -fsSL -o swiftlint.zip \
+            "https://github.com/realm/SwiftLint/releases/download/${SWIFTLINT_VERSION}/swiftlint_linux_${arch}.zip"
+          unzip -q swiftlint.zip -d "$RUNNER_TEMP/swiftlint"
+          "$RUNNER_TEMP/swiftlint/swiftlint" --strict
+
+  test-linux:
+    needs: config
+    if: needs.config.outputs.linux == 'true'
+    runs-on: ubuntu-latest
+    container: swift:latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: swift test -Xswiftc -warnings-as-errors
+
+  # `xcode-27` is the GitHub image with Xcode 27 (preview). Xcode is selected
+  # from .xcode-version; bump that file when a newer Xcode is on the image.
+  macos:
+    runs-on: xcode-27
+    strategy:
+      fail-fast: false
+      matrix:
+        job: [test, docs, demo]
+    steps:
+      - uses: actions/checkout@v4
+      - name: Select Xcode
+        run: |
+          version=$(tr -d '[:space:]' < .xcode-version)
+          app="/Applications/Xcode_${version}.app"
+          if [ ! -d "$app" ]; then
+            echo "::error::Xcode ${version} (.xcode-version) is not installed on this runner."
+            ls -d /Applications/Xcode_*.app
+            exit 1
+          fi
+          sudo xcode-select -s "$app"
+          xcodebuild -version
+      - name: Test
+        if: matrix.job == 'test'
+        run: make test
+      - name: Docs
+        if: matrix.job == 'docs'
+        run: make docs
+      - name: Demo app (iOS Simulator)
+        if: matrix.job == 'demo'
+        run: |
+          xcodebuild build -project Examples/DemoApp.xcodeproj -scheme DemoApp \
+            -destination 'generic/platform=iOS Simulator' \
+            CODE_SIGNING_ALLOWED=NO -quiet
+      - name: Demo app (macOS)
+        if: matrix.job == 'demo'
+        run: |
+          xcodebuild build -project Examples/DemoApp.xcodeproj -scheme DemoApp \
+            -destination 'platform=macOS' \
+            CODE_SIGNING_ALLOWED=NO -quiet

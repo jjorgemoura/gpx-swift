@@ -5,7 +5,7 @@ import PackageDescription
 let package = Package(
     name: "gpx-swift",
     platforms: [
-        .iOS(.v26),
+        .iOS(.v27),
         .macOS(.v26),
     ],
     products: [
