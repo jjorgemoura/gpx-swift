@@ -11,8 +11,7 @@ let package = Package(
     products: [
         .library(name: "GPXSwift", targets: ["GPXSwift"])
     ],
-    dependencies: [
-    ],
+    dependencies: [],
     targets: [
         .target(
             name: "GPXSwift",

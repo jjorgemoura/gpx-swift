@@ -1,7 +1,7 @@
 import Foundation
 
 #if canImport(FoundationXML)
-import FoundationXML
+    import FoundationXML
 #endif
 
 /// A minimal XML element tree built from `XMLParser`.
