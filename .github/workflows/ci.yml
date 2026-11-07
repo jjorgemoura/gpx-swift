@@ -59,26 +59,13 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        job: [test, docs, demo]
+        job: [test, demo]
     steps:
       - uses: actions/checkout@v4
-      - name: Select Xcode
-        run: |
-          version=$(tr -d '[:space:]' < .xcode-version)
-          app="/Applications/Xcode_${version}.app"
-          if [ ! -d "$app" ]; then
-            echo "::error::Xcode ${version} (.xcode-version) is not installed on this runner."
-            ls -d /Applications/Xcode_*.app
-            exit 1
-          fi
-          sudo xcode-select -s "$app"
-          xcodebuild -version
+      - uses: ./.github/actions/select-xcode
       - name: Test
         if: matrix.job == 'test'
         run: make test
-      - name: Docs
-        if: matrix.job == 'docs'
-        run: make docs
       - name: Demo app (iOS Simulator)
         if: matrix.job == 'demo'
         run: |
@@ -91,3 +78,13 @@ jobs:
           xcodebuild build -project Examples/DemoApp.xcodeproj -scheme DemoApp \
             -destination 'platform=macOS' \
             CODE_SIGNING_ALLOWED=NO -quiet
+
+  # Skipped on PRs. Runs on pushes to main and when release.yml calls this
+  # workflow, so a broken DocC build stops a release.
+  docs:
+    if: github.event_name != 'pull_request'
+    runs-on: xcode-27
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./.github/actions/select-xcode
+      - run: make docs
