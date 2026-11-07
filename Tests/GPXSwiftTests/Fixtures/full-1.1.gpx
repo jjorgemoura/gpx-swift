@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<gpx version="1.1" creator="GPXSwift Tests"
+     xmlns="http://www.topografix.com/GPX/1/1"
+     xmlns:gpxtpx="http://www.garmin.com/xmlschemas/TrackPointExtension/v1"
+     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+     xsi:schemaLocation="http://www.topografix.com/GPX/1/1 http://www.topografix.com/GPX/1/1/gpx.xsd">
+  <metadata>
+    <name>Morning &amp; evening loop</name>
+    <desc>Every element of the GPX 1.1 schema</desc>
+    <author>
+      <name>Jane Walker</name>
+      <email id="jane" domain="example.com"/>
+      <link href="https://example.com/jane"><text>Jane's page</text><type>text/html</type></link>
+    </author>
+    <copyright author="Jane Walker">
+      <year>2026</year>
+      <license>https://example.com/license</license>
+    </copyright>
+    <link href="https://example.com/loop"><text>The loop</text></link>
+    <time>2026-05-01T06:30:00Z</time>
+    <keywords>run, loop, test</keywords>
+    <bounds minlat="38.70" minlon="-9.20" maxlat="38.80" maxlon="-9.10"/>
+    <extensions><meta:note xmlns:meta="urn:example:meta">kept</meta:note></extensions>
+  </metadata>
+  <wpt lat="38.7223" lon="-9.1393">
+    <ele>12.5</ele>
+    <time>2026-05-01T06:31:00.250Z</time>
+    <magvar>1.5</magvar>
+    <geoidheight>50.2</geoidheight>
+    <name>Start</name>
+    <cmt>comment</cmt>
+    <desc>Where it begins</desc>
+    <src>Handheld</src>
+    <link href="https://example.com/start"/>
+    <sym>Flag</sym>
+    <type>Landmark</type>
+    <fix>3d</fix>
+    <sat>9</sat>
+    <hdop>0.9</hdop>
+    <vdop>1.1</vdop>
+    <pdop>1.4</pdop>
+    <ageofdgpsdata>3.5</ageofdgpsdata>
+    <dgpsid>42</dgpsid>
+  </wpt>
+  <wpt lat="38.7300" lon="-9.1500"><name>Café</name></wpt>
+  <rte>
+    <name>Planned route</name>
+    <cmt>route comment</cmt>
+    <desc>route description</desc>
+    <src>Planner</src>
+    <link href="https://example.com/route"/>
+    <number>7</number>
+    <type>Run</type>
+    <rtept lat="38.7223" lon="-9.1393"><ele>10</ele><name>R1</name></rtept>
+    <rtept lat="38.7250" lon="-9.1400"><name>R2</name></rtept>
+  </rte>
+  <trk>
+    <name>Recorded track</name>
+    <cmt>track comment</cmt>
+    <desc>track description</desc>
+    <src>Watch</src>
+    <link href="https://example.com/track"/>
+    <number>1</number>
+    <type>Running</type>
+    <trkseg>
+      <trkpt lat="38.7223" lon="-9.1393">
+        <ele>12.0</ele>
+        <time>2026-05-01T06:31:00Z</time>
+        <extensions>
+          <gpxtpx:TrackPointExtension>
+            <gpxtpx:hr>142</gpxtpx:hr>
+            <gpxtpx:cad>80</gpxtpx:cad>
+          </gpxtpx:TrackPointExtension>
+        </extensions>
+      </trkpt>
+      <trkpt lat="38.7230" lon="-9.1400">
+        <ele>13.0</ele>
+        <time>2026-05-01T08:31:05+02:00</time>
+      </trkpt>
+    </trkseg>
+    <trkseg>
+      <trkpt lat="38.7300" lon="-9.1500"><time>2026-05-01T06:40:00</time></trkpt>
+    </trkseg>
+  </trk>
+  <extensions><x:flag xmlns:x="urn:example:x" kind="demo"/></extensions>
+</gpx>

@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<gpx version="1.0" creator="OldDevice" xmlns="http://www.topografix.com/GPX/1/0">
+  <name>Legacy file</name>
+  <desc>A GPX 1.0 file</desc>
+  <author>Bob</author>
+  <email>bob@example.org</email>
+  <url>https://example.org/bob</url>
+  <urlname>Bob's site</urlname>
+  <time>2005-01-01T12:00:00Z</time>
+  <keywords>old</keywords>
+  <bounds minlat="1" minlon="2" maxlat="3" maxlon="4"/>
+  <wpt lat="1.5" lon="2.5">
+    <ele>100</ele>
+    <name>W1</name>
+    <url>https://example.org/w1</url>
+    <urlname>W1 page</urlname>
+    <speed>3.5</speed>
+    <course>90</course>
+  </wpt>
+  <trk>
+    <name>Old track</name>
+    <number>3</number>
+    <trkseg>
+      <trkpt lat="1.5" lon="2.5"><time>2005-01-01T12:00:00Z</time></trkpt>
+    </trkseg>
+  </trk>
+</gpx>

@@ -21,6 +21,7 @@ let package = Package(
         .testTarget(
             name: "GPXSwiftTests",
             dependencies: ["GPXSwift"],
+            resources: [.copy("Fixtures")],
         ),
     ]
 )
