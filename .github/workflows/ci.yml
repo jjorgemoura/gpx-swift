@@ -80,13 +80,13 @@ jobs:
       - name: Demo app (iOS Simulator)
         if: matrix.job == 'demo'
         run: |
-          xcodebuild build -project Examples/DemoApp.xcodeproj -scheme DemoApp \
+          xcodebuild build -workspace GPXSwift.xcworkspace -scheme DemoApp \
             -destination 'generic/platform=iOS Simulator' \
             CODE_SIGNING_ALLOWED=NO -quiet
       - name: Demo app (macOS)
         if: matrix.job == 'demo'
         run: |
-          xcodebuild build -project Examples/DemoApp.xcodeproj -scheme DemoApp \
+          xcodebuild build -workspace GPXSwift.xcworkspace -scheme DemoApp \
             -destination 'platform=macOS' \
             CODE_SIGNING_ALLOWED=NO -quiet
 
