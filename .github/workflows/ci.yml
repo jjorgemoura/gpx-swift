@@ -27,10 +27,18 @@ jobs:
       - id: flags
         run: echo "linux=true" >> "$GITHUB_OUTPUT"
 
+  test-linux:
+    needs: config
+    if: needs.config.outputs.linux == 'true'
+    runs-on: ubuntu-latest
+    container: swift:latest
+    steps:
+      - uses: actions/checkout@v7
+      - run: swift test -Xswiftc -warnings-as-errors
+
   lint:
     runs-on: ubuntu-latest
-    # Pinned to noble: the prebuilt SwiftLint binary needs libxml2.so.2, which
-    # newer distros behind swift:latest no longer package.
+    # Pinned to noble: the prebuilt SwiftLint binary needs libxml2.so.2, which newer distros behind swift:latest no longer package.
     container: swift:noble
     steps:
       - uses: actions/checkout@v7
@@ -47,24 +55,22 @@ jobs:
           echo "$RUNNER_TEMP/swiftlint" >> "$GITHUB_PATH"
       - name: SwiftLint
         run: swiftlint --strict
-      # Analyzer rules need a compiler log. Not --strict until the existing
-      # violations are cleaned up, so it only reports warnings for now.
+      # Analyzer rules need a compiler log. Not --strict until the existing violations are cleaned up, so it only reports warnings for now.
       - name: SwiftLint analyze
         run: |
           swift build -v > build.log 2>&1 || { tail -20 build.log; exit 1; }
           swiftlint analyze --compiler-log-path build.log
 
-  test-linux:
-    needs: config
-    if: needs.config.outputs.linux == 'true'
-    runs-on: ubuntu-latest
-    container: swift:latest
+  # Skipped on PRs. Runs on pushes to main and when release.yml calls this workflow, so a broken DocC build stops a release.
+  docs:
+    if: github.event_name != 'pull_request'
+    runs-on: xcode-27
     steps:
       - uses: actions/checkout@v7
-      - run: swift test -Xswiftc -warnings-as-errors
+      - uses: ./.github/actions/select-xcode
+      - run: make docs
 
-  # `xcode-27` is the GitHub image with Xcode 27 (preview). Xcode is selected
-  # from .xcode-version; bump that file when a newer Xcode is on the image.
+  # `xcode-27` is the GitHub image with Xcode 27. Xcode is selected from .xcode-version; bump that file when a newer Xcode is on the image.
   macos:
     runs-on: xcode-27
     strategy:
@@ -89,13 +95,3 @@ jobs:
           xcodebuild build -workspace GPXSwift.xcworkspace -scheme DemoApp \
             -destination 'platform=macOS' \
             CODE_SIGNING_ALLOWED=NO -quiet
-
-  # Skipped on PRs. Runs on pushes to main and when release.yml calls this
-  # workflow, so a broken DocC build stops a release.
-  docs:
-    if: github.event_name != 'pull_request'
-    runs-on: xcode-27
-    steps:
-      - uses: actions/checkout@v7
-      - uses: ./.github/actions/select-xcode
-      - run: make docs
