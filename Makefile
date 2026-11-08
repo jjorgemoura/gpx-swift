@@ -9,7 +9,7 @@ format:
 
 lint:
 	swift format lint --strict --recursive $(SOURCES)
-	swiftlint --strict $(SOURCES)
+	swiftlint --strict --no-cache $(SOURCES)
 
 lint-xcode:
 	@if command -v swiftlint >/dev/null; then \
