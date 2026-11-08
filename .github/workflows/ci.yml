@@ -33,7 +33,7 @@ jobs:
     # newer distros behind swift:latest no longer package.
     container: swift:noble
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - name: swift-format
         run: swift format lint --strict --recursive Sources Tests Package.swift
       - name: Install SwiftLint
@@ -60,7 +60,7 @@ jobs:
     runs-on: ubuntu-latest
     container: swift:latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - run: swift test -Xswiftc -warnings-as-errors
 
   # `xcode-27` is the GitHub image with Xcode 27 (preview). Xcode is selected
@@ -72,7 +72,7 @@ jobs:
       matrix:
         job: [test, demo]
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - uses: ./.github/actions/select-xcode
       - name: Test
         if: matrix.job == 'test'
@@ -96,6 +96,6 @@ jobs:
     if: github.event_name != 'pull_request'
     runs-on: xcode-27
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - uses: ./.github/actions/select-xcode
       - run: make docs
