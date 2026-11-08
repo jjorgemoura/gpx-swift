@@ -36,8 +36,10 @@ Foundation only, so it also builds on Linux.
   the package, so the `GPXSwift` product only resolves through the workspace.
 - SwiftLint caches results locally, so a stale cache can hide violations that CI finds.
   `make lint` skips the cache. For Xcode, run `rm -rf ~/Library/Caches/SwiftLint`.
-- The prebuilt SwiftLint binary needs `libxml2.so.2`, so the Linux lint job pins an Ubuntu
-  Swift image instead of `swift:latest`. See the comment in `.github/workflows/ci.yml`.
+- CI logic is not in this repo. `.github/workflows/` holds thin callers of the reusable
+  workflows in `jjorgemoura/ios-platform`, pinned to a tag. Change CI there, not here.
+- Every platform in `Package.swift` is built in CI, and the `platforms` input of the shared
+  workflow must match. Adding or dropping a platform means updating both.
 
 ### Verifying changes
 - Run `make lint` and `make test` before pushing. The `Makefile` has the other targets.
