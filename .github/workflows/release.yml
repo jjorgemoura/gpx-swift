@@ -21,45 +21,14 @@ jobs:
   # Release only from main, and only if lint, tests, docs and demo all pass.
   ci:
     if: github.ref == 'refs/heads/main'
-    uses: ./.github/workflows/ci.yml
+    uses: jjorgemoura/ios-platform/.github/workflows/ci.yml@v1
+    with:
+      module: GPXSwift
 
   release:
     needs: ci
-    runs-on: ubuntu-latest
     permissions:
       contents: write # create the tag and the GitHub Release
-    steps:
-      - uses: actions/checkout@v7
-        with:
-          fetch-depth: 0 # need all tags to compute the next version
-
-      - name: Compute next version
-        id: version
-        env:
-          BUMP: ${{ inputs.bump }}
-        run: |
-          # Latest strict SemVer tag (no "v" prefix); 0.0.0 when none exist.
-          latest=$(git tag --list | grep -E '^[0-9]+\.[0-9]+\.[0-9]+$' | sort -V | tail -n1 || true)
-          latest=${latest:-0.0.0}
-          IFS=. read -r major minor patch <<< "$latest"
-          case "$BUMP" in
-            major) major=$((major + 1)); minor=0; patch=0 ;;
-            minor) minor=$((minor + 1)); patch=0 ;;
-            patch) patch=$((patch + 1)) ;;
-          esac
-          next="${major}.${minor}.${patch}"
-          echo "Latest: ${latest} -> Next: ${next}"
-          echo "next=${next}" >> "$GITHUB_OUTPUT"
-
-      # One atomic call: GitHub creates the tag (on the exact commit CI
-      # validated) and the release together, so no orphan tag on failure.
-      # Swift Package Index then builds and hosts the DocC for the new tag.
-      - name: Create tag and GitHub Release
-        env:
-          GH_TOKEN: ${{ github.token }}
-          VERSION: ${{ steps.version.outputs.next }}
-        run: |
-          gh release create "$VERSION" \
-            --target "$GITHUB_SHA" \
-            --title "$VERSION" \
-            --generate-notes
+    uses: jjorgemoura/ios-platform/.github/workflows/release.yml@v1
+    with:
+      bump: ${{ inputs.bump }}

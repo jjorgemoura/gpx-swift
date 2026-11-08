@@ -4,7 +4,6 @@ on:
   pull_request:
   push:
     branches: [main]
-  workflow_call: # reused by release.yml as a gate
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
@@ -13,85 +12,10 @@ concurrency:
 permissions:
   contents: read
 
-env:
-  SWIFTLINT_VERSION: "0.65.1"
-
+# All CI logic lives in ios-platform. See standards/ci.md there.
 jobs:
-  # Single place to toggle optional jobs. Set linux to "false" for libraries
-  # that import Apple-only frameworks (CoreLocation, SwiftUI, ...).
-  config:
-    runs-on: ubuntu-latest
-    outputs:
-      linux: ${{ steps.flags.outputs.linux }}
-    steps:
-      - id: flags
-        run: echo "linux=true" >> "$GITHUB_OUTPUT"
-
-  test-linux:
-    needs: config
-    if: needs.config.outputs.linux == 'true'
-    runs-on: ubuntu-latest
-    container: swift:latest
-    steps:
-      - uses: actions/checkout@v7
-      - run: swift test -Xswiftc -warnings-as-errors
-
-  lint:
-    runs-on: ubuntu-latest
-    # Pinned to noble: the prebuilt SwiftLint binary needs libxml2.so.2, which newer distros behind swift:latest no longer package.
-    container: swift:noble
-    steps:
-      - uses: actions/checkout@v7
-      - name: swift-format
-        run: swift format lint --strict --recursive Sources Tests Package.swift
-      - name: Install SwiftLint
-        run: |
-          # libxml2 is a runtime dependency of the prebuilt SwiftLint binary.
-          apt-get update -qq && apt-get install -y -qq curl unzip libxml2 >/dev/null
-          arch=$(uname -m | sed 's/x86_64/amd64/')
-          curl -fsSL --retry 5 --retry-delay 5 --retry-all-errors -o swiftlint.zip \
-            "https://github.com/realm/SwiftLint/releases/download/${SWIFTLINT_VERSION}/swiftlint_linux_${arch}.zip"
-          unzip -q swiftlint.zip -d "$RUNNER_TEMP/swiftlint"
-          echo "$RUNNER_TEMP/swiftlint" >> "$GITHUB_PATH"
-      - name: SwiftLint
-        run: swiftlint --strict
-      # Analyzer rules need a compiler log. Not --strict until the existing violations are cleaned up, so it only reports warnings for now.
-      - name: SwiftLint analyze
-        run: |
-          swift build -v > build.log 2>&1 || { tail -20 build.log; exit 1; }
-          swiftlint analyze --compiler-log-path build.log
-
-  # Skipped on PRs. Runs on pushes to main and when release.yml calls this workflow, so a broken DocC build stops a release.
-  docs:
-    if: github.event_name != 'pull_request'
-    runs-on: xcode-27
-    steps:
-      - uses: actions/checkout@v7
-      - uses: ./.github/actions/select-xcode
-      - run: make docs
-
-  # `xcode-27` is the GitHub image with Xcode 27. Xcode is selected from .xcode-version; bump that file when a newer Xcode is on the image.
-  macos:
-    runs-on: xcode-27
-    strategy:
-      fail-fast: false
-      matrix:
-        job: [test, demo]
-    steps:
-      - uses: actions/checkout@v7
-      - uses: ./.github/actions/select-xcode
-      - name: Test
-        if: matrix.job == 'test'
-        run: make test
-      - name: Demo app (iOS Simulator)
-        if: matrix.job == 'demo'
-        run: |
-          xcodebuild build -workspace GPXSwift.xcworkspace -scheme DemoApp \
-            -destination 'generic/platform=iOS Simulator' \
-            CODE_SIGNING_ALLOWED=NO -quiet
-      - name: Demo app (macOS)
-        if: matrix.job == 'demo'
-        run: |
-          xcodebuild build -workspace GPXSwift.xcworkspace -scheme DemoApp \
-            -destination 'platform=macOS' \
-            CODE_SIGNING_ALLOWED=NO -quiet
+  ci:
+    uses: jjorgemoura/ios-platform/.github/workflows/ci.yml@v1
+    with:
+      module: GPXSwift
+      demo-scheme: DemoApp
