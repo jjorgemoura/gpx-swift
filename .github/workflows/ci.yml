@@ -36,7 +36,8 @@ jobs:
         run: swift format lint --strict --recursive Sources Tests Package.swift
       - name: Install SwiftLint
         run: |
-          apt-get update -qq && apt-get install -y -qq curl unzip >/dev/null
+          # libxml2 is a runtime dependency of the prebuilt SwiftLint binary.
+          apt-get update -qq && apt-get install -y -qq curl unzip libxml2 >/dev/null
           arch=$(uname -m | sed 's/x86_64/amd64/')
           curl -fsSL -o swiftlint.zip \
             "https://github.com/realm/SwiftLint/releases/download/${SWIFTLINT_VERSION}/swiftlint_linux_${arch}.zip"
