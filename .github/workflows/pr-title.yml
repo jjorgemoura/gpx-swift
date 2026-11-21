@@ -1,0 +1,14 @@
+name: PR title
+
+# `edited` reruns the check when the title changes; `synchronize` reports it on every new commit,
+# so the required check is never left pending.
+on:
+  pull_request:
+    types: [opened, edited, reopened, synchronize]
+
+permissions: {}
+
+# The check lives in ios-platform. See standards/git-workflow.md there (GIT-3).
+jobs:
+  pr-title:
+    uses: jjorgemoura/ios-platform/.github/workflows/pr-title.yml@v1
