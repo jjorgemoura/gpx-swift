@@ -234,3 +234,18 @@ custom_rules:
     regex: '(guard|if) let[^\n]*else \{\n\s+return( true| false| nil)*\n\s*\}'
     message: "Simple conditions should be expressed on one line"
     severity: warning
+
+  # CONC-3: the comment goes on the line above or at the end of the same line.
+  unchecked_sendable_needs_comment:
+    included: ".*\\.swift"
+    regex: '(?<!//[^\n]{0,500}\n[^\n]{0,500})(?<!//[^\n]{0,500})@unchecked\s+Sendable(?![^\n]*//)'
+    message: "@unchecked Sendable needs a comment explaining why it is safe (CONC-3)"
+    severity: error
+
+  # CONC-5: SHOULD. Opt out with `// swiftlint:disable:next no_dispatch_queue` and a reason.
+  no_dispatch_queue:
+    included: ".*\\.swift"
+    regex: '\bDispatchQueue\b'
+    match_kinds: [identifier, typeidentifier]
+    message: "Use actors and structured concurrency instead of DispatchQueue (CONC-5)"
+    severity: warning
